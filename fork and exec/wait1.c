@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 
 int main(int argc, char *argv[])
 {
     int id = fork();
+    int status = 0;
     int n;
 
     if (id == 0)
@@ -13,7 +16,7 @@ int main(int argc, char *argv[])
 
     // wait for child process to terminate
     if (id != 0)
-        wait();
+        wait(&status);
     
     for (int i = n; i < n + 5; i++) {
         printf("%d ", i);
@@ -22,7 +25,7 @@ int main(int argc, char *argv[])
     
     if (id != 0)
         printf("\n");
-
+        
     return 0;
 }
 
